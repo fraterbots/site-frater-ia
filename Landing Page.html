@@ -1,0 +1,2001 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Frater IA — Automação e Inteligência Artificial sob medida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    /* Tweakable palette — overridden at runtime */
+    --ink: #14133a;          /* azul-marinho da logo */
+    --ink-2: #1f1d52;
+    --ink-3: #2a2870;
+    --paper: #f4f2ea;        /* off-white quente */
+    --paper-2: #ebe7da;
+    --line: rgba(20,19,58,0.12);
+    --line-dark: rgba(255,255,255,0.10);
+
+    --green: oklch(82% 0.20 145);
+    --green-2: oklch(72% 0.21 150);
+    --purple: oklch(64% 0.20 295);
+    --purple-2: oklch(54% 0.22 290);
+
+    --accent: var(--green);
+    --accent-2: var(--purple);
+
+    --display: "Space Grotesk", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --body: "Inter", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--body);
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: var(--ink); }
+
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in oklab, var(--ink) 78%, transparent);
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 32px; max-width: 1280px; margin: 0 auto;
+  }
+  .nav-logo { display:inline-flex; color: var(--paper); text-decoration:none; line-height: 0; outline: none; -webkit-tap-highlight-color: transparent; border: 0; }
+  .nav-logo:focus, .nav-logo:focus-visible, .nav-logo:active { outline: none !important; box-shadow: none !important; border: 0; }
+  .nav-logo img { height: 56px; width: auto; display:block; transition: transform .35s cubic-bezier(.2,.9,.4,1.4); border: 0; outline: 0; }
+  .nav-logo:hover img { transform: scale(1.06) rotate(-4deg); }
+  .nav-links { display:flex; gap: 28px; align-items:center; }
+  .nav-links a {
+    color: color-mix(in oklab, var(--paper) 70%, transparent);
+    text-decoration: none; font-size: 13px; font-family: var(--mono);
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    position: relative;
+    padding: 10px 18px; border-radius: 999px;
+    background: var(--accent); color: var(--ink);
+    font-family: var(--display); font-weight: 600; font-size: 13px;
+    border: none; cursor: pointer; text-decoration: none;
+    transition: transform .35s cubic-bezier(.2,.9,.4,1.2), box-shadow .35s, background .25s;
+    overflow: hidden; isolation: isolate;
+  }
+  .nav-cta::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, color-mix(in oklab, var(--paper) 50%, transparent) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform .7s cubic-bezier(.2,.9,.4,1);
+  }
+  .nav-cta:hover::before { transform: translateX(120%); }
+  .nav-cta:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 14px 30px -10px var(--accent); }
+  .nav-cta:active { transform: scale(.97); }
+
+  @media (max-width: 720px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ============ HERO (minimalist) ============ */
+  .hero {
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 140px 0 80px;
+    overflow: hidden;
+    isolation: isolate;
+    min-height: 92vh;
+    display: flex; align-items: center;
+  }
+  .hero-inner {
+    position: relative;
+    text-align: center;
+    max-width: 880px; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 28px;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(48px, 7.6vw, 104px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.95;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(105deg, var(--accent), var(--accent-2) 60%, var(--accent));
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: grad-shift 6s linear infinite;
+    font-style: italic; font-weight: 500;
+  }
+  @keyframes grad-shift { to { background-position: 200% center; } }
+  .hero p.lede {
+    font-size: clamp(17px, 1.4vw, 20px); line-height: 1.55;
+    color: color-mix(in oklab, var(--paper) 70%, transparent);
+    max-width: 580px; margin: 0;
+    text-wrap: pretty;
+  }
+  .hero-ctas { display:flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 12px;
+    text-transform: uppercase; letter-spacing: .14em;
+    color: color-mix(in oklab, var(--paper) 80%, transparent);
+    padding: 8px 16px; border-radius: 999px;
+    border: 1px solid var(--line-dark);
+    background: color-mix(in oklab, var(--paper) 4%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .eyebrow .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  /* Scroll indicator below the hero */
+  .hero-scroll {
+    margin-top: 40px;
+    display: inline-flex; flex-direction: column; align-items: center; gap: 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: .22em;
+    color: color-mix(in oklab, var(--paper) 55%, transparent);
+    text-transform: uppercase;
+  }
+  .hero-scroll-line {
+    position: relative; display: block;
+    width: 1px; height: 56px;
+    background: color-mix(in oklab, var(--paper) 22%, transparent);
+    overflow: hidden;
+  }
+  .hero-scroll-dot {
+    position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+    width: 1px; height: 18px;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+    animation: scrollDot 2.2s cubic-bezier(.6,.05,.4,.95) infinite;
+  }
+  @keyframes scrollDot {
+    0% { top: -18px; opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { top: 56px; opacity: 0; }
+  }
+
+  /* Live chat preview ribbon below the headline */
+  .hero-demo {
+    margin-top: 32px;
+    width: 100%; max-width: 760px;
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+    perspective: 1200px;
+  }
+  .demo-card {
+    background: color-mix(in oklab, var(--ink) 50%, #000);
+    border: 1px solid color-mix(in oklab, var(--accent) 25%, var(--line-dark));
+    border-radius: 20px;
+    padding: 22px 26px;
+    display: flex; align-items: center; gap: 18px;
+    text-align: left;
+    transform: rotateX(8deg);
+    transform-origin: center top;
+    box-shadow:
+      0 30px 80px -30px color-mix(in oklab, var(--accent) 50%, #000),
+      inset 0 1px 0 color-mix(in oklab, var(--paper) 6%, transparent);
+    backdrop-filter: blur(10px);
+    opacity: 0; transform: rotateX(8deg) translateY(20px);
+    animation: demo-in .7s cubic-bezier(.2,.9,.4,1.1) forwards;
+  }
+  @keyframes demo-in { to { opacity: 1; transform: rotateX(8deg) translateY(0); } }
+  .demo-card:nth-child(1) { animation-delay: .8s; }
+  .demo-card:nth-child(2) { animation-delay: 1.6s; }
+  .demo-card:nth-child(3) { animation-delay: 2.4s; }
+
+  .demo-avatar {
+    width: 40px; height: 40px; border-radius: 12px;
+    flex-shrink: 0;
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--display); font-weight: 700; font-size: 16px;
+  }
+  .demo-avatar.user { background: color-mix(in oklab, var(--paper) 14%, transparent); color: var(--paper); border: 1px solid var(--line-dark);}
+  .demo-avatar.bot { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--ink); box-shadow: 0 0 20px color-mix(in oklab, var(--accent) 50%, transparent); }
+  .demo-content { flex: 1; min-width: 0; }
+  .demo-meta {
+    font-family: var(--mono); font-size: 10.5px;
+    color: color-mix(in oklab, var(--paper) 55%, transparent);
+    text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .demo-meta .src { color: var(--accent); }
+  .demo-card.bot-msg .demo-meta .src { color: var(--accent-2); }
+  .demo-text { font-family: var(--display); font-size: 16px; line-height: 1.4; color: var(--paper); }
+  .demo-text .typing { display: inline-flex; gap: 3px; vertical-align: middle; margin-left: 4px;}
+  .demo-text .typing span { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: dot 1.2s infinite; }
+  .demo-text .typing span:nth-child(2) { animation-delay: .15s; }
+  .demo-text .typing span:nth-child(3) { animation-delay: .3s; }
+
+  .demo-action {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 12px; border-radius: 999px;
+    background: color-mix(in oklab, var(--accent) 20%, transparent);
+    border: 1px solid color-mix(in oklab, var(--accent) 50%, transparent);
+    color: var(--accent);
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: .1em;
+    flex-shrink: 0;
+  }
+  .demo-action::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 8px var(--accent);
+    animation: pulse 1.6s infinite;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, var(--line-dark) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line-dark) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 75%);
+  }
+  .hero-glow-1, .hero-glow-2 {
+    position: absolute; border-radius: 50%;
+    filter: blur(120px); opacity: .55;
+  }
+  .hero-glow-1 {
+    width: 540px; height: 540px;
+    background: var(--accent);
+    top: -120px; right: -100px;
+    animation: float-1 18s ease-in-out infinite;
+  }
+  .hero-glow-2 {
+    width: 480px; height: 480px;
+    background: var(--accent-2);
+    bottom: -180px; left: -120px;
+    animation: float-2 22s ease-in-out infinite;
+  }
+  @keyframes float-1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-40px, 40px) scale(1.1); }
+  }
+  @keyframes float-2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(60px, -40px) scale(1.15); }
+  }
+
+  /* Hero particles */
+  .hero-particles {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .hero-particles span {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    opacity: 0;
+    animation: particle-rise 8s linear infinite;
+  }
+  .hero-particles span:nth-child(1)  { left: 8%;  animation-delay: 0s;   animation-duration: 9s; }
+  .hero-particles span:nth-child(2)  { left: 18%; animation-delay: 2s;   animation-duration: 7s; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2);}
+  .hero-particles span:nth-child(3)  { left: 28%; animation-delay: 4s;   animation-duration: 10s; }
+  .hero-particles span:nth-child(4)  { left: 38%; animation-delay: 1s;   animation-duration: 8s; }
+  .hero-particles span:nth-child(5)  { left: 48%; animation-delay: 3.5s; animation-duration: 11s; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2);}
+  .hero-particles span:nth-child(6)  { left: 58%; animation-delay: 0.5s; animation-duration: 9s; }
+  .hero-particles span:nth-child(7)  { left: 68%; animation-delay: 5s;   animation-duration: 8s; }
+  .hero-particles span:nth-child(8)  { left: 78%; animation-delay: 2.5s; animation-duration: 12s; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2);}
+  .hero-particles span:nth-child(9)  { left: 88%; animation-delay: 4.5s; animation-duration: 9s; }
+  .hero-particles span:nth-child(10) { left: 14%; animation-delay: 6s;   animation-duration: 10s;}
+  .hero-particles span:nth-child(11) { left: 33%; animation-delay: 7s;   animation-duration: 8s; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2);}
+  .hero-particles span:nth-child(12) { left: 52%; animation-delay: 1.5s; animation-duration: 11s;}
+  .hero-particles span:nth-child(13) { left: 72%; animation-delay: 3s;   animation-duration: 9s; }
+  .hero-particles span:nth-child(14) { left: 84%; animation-delay: 5.5s; animation-duration: 10s; background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2);}
+  .hero-particles span:nth-child(15) { left: 94%; animation-delay: 6.5s; animation-duration: 8s; }
+  @keyframes particle-rise {
+    0% { transform: translateY(100vh) scale(0.6); opacity: 0; }
+    10% { opacity: .9; }
+    85% { opacity: .9; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+  }
+
+  /* Hero mesh paths */
+  .hero-mesh {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    pointer-events: none; opacity: .5;
+  }
+  .mesh-path {
+    stroke-dasharray: 8 8;
+    animation: mesh-flow 12s linear infinite;
+  }
+  .mesh-path.mp2 { animation-duration: 16s; animation-direction: reverse;}
+  .mesh-path.mp3 { animation-duration: 20s; }
+  @keyframes mesh-flow {
+    to { stroke-dashoffset: -200; }
+  }
+
+  /* Hero entrance reveal */
+  .reveal-up {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(28px);
+    animation: reveal-up .9s cubic-bezier(.2,.7,.2,1) forwards;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes reveal-up {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.4 } }
+
+  .btn {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 26px; border-radius: 999px;
+    font-family: var(--display); font-weight: 600; font-size: 15px;
+    text-decoration: none; cursor: pointer; border: none;
+    overflow: hidden;
+    transition: transform .35s cubic-bezier(.2,.9,.4,1.2), box-shadow .35s, background .25s, color .25s;
+    isolation: isolate;
+  }
+  .btn::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 30%, color-mix(in oklab, var(--paper) 50%, transparent) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform .7s cubic-bezier(.2,.9,.4,1);
+    z-index: -1;
+  }
+  .btn:hover::before { transform: translateX(120%); }
+  .btn-primary {
+    background: var(--accent); color: var(--ink);
+    box-shadow: 0 14px 36px -14px var(--accent), inset 0 -3px 0 color-mix(in oklab, var(--accent) 60%, var(--ink));
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 24px 60px -16px var(--accent), inset 0 -3px 0 color-mix(in oklab, var(--accent) 60%, var(--ink));
+  }
+  .btn-primary:active { transform: translateY(0) scale(.98); transition-duration: .1s; }
+  .btn-ghost {
+    color: var(--paper);
+    border: 1px solid var(--line-dark);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    background: color-mix(in oklab, var(--paper) 8%, transparent);
+    border-color: color-mix(in oklab, var(--accent) 60%, transparent);
+    transform: translateY(-2px);
+    color: var(--accent);
+  }
+  .btn .arrow { transition: transform .35s cubic-bezier(.2,.9,.4,1.4); display: inline-block; }
+  .btn:hover .arrow { transform: translateX(6px) rotate(-12deg); }
+
+
+  /* ============ MARQUEE ============ */
+  .marquee {
+    background: var(--ink-2);
+    color: var(--paper);
+    border-top: 1px solid var(--line-dark);
+    border-bottom: 1px solid var(--line-dark);
+    padding: 22px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex; gap: 56px; white-space: nowrap;
+    animation: scroll 40s linear infinite;
+    font-family: var(--display); font-size: 18px; font-weight: 500;
+    color: color-mix(in oklab, var(--paper) 55%, transparent);
+  }
+  .marquee-track span { display:flex; align-items:center; gap: 56px; }
+  .marquee-track .star { color: var(--accent); }
+  @keyframes scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTION BASES ============ */
+  section { position: relative; }
+  .sec-light { background: var(--paper); color: var(--ink); padding: 120px 0; }
+  .sec-dark { background: var(--ink); color: var(--paper); padding: 120px 0; overflow: hidden; }
+  .sec-paper-2 { background: var(--paper-2); color: var(--ink); padding: 120px 0; }
+
+  .sec-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; margin-bottom: 72px; align-items: end; }
+  @media (max-width: 860px) { .sec-head { grid-template-columns: 1fr; gap: 24px; } }
+  .sec-num {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: color-mix(in oklab, currentColor 55%, transparent);
+    display:flex; align-items:center; gap: 12px;
+  }
+  .sec-num::before {
+    content: ""; width: 28px; height: 1px; background: currentColor; opacity: .4;
+  }
+  .sec-title {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(36px, 4.5vw, 60px);
+    line-height: 1.02; letter-spacing: -0.02em; margin: 14px 0 0;
+    text-wrap: balance;
+  }
+  .sec-title .grad { background: linear-gradient(100deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .sec-sub { font-size: 18px; line-height: 1.55; max-width: 540px; opacity: .72; text-wrap: pretty; }
+
+  /* ============ FOUNDERS ============ */
+  .founders-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    background: var(--ink); color: var(--paper);
+    border-radius: 32px; overflow: hidden; position: relative;
+    isolation: isolate;
+    border: 1px solid var(--line-dark);
+  }
+  @media (max-width: 900px) { .founders-block { grid-template-columns: 1fr; } }
+  .founders-block::before {
+    content:""; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(circle at 70% 30%, color-mix(in oklab, var(--accent) 35%, transparent), transparent 55%),
+      radial-gradient(circle at 20% 80%, color-mix(in oklab, var(--accent-2) 28%, transparent), transparent 55%);
+  }
+  .founders-photo {
+    position: relative;
+    aspect-ratio: 3/4; min-height: 520px;
+    background-image: url('assets/founders.png');
+    background-size: cover; background-position: center;
+  }
+  .founders-photo::after {
+    content:""; position:absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 60%, var(--ink) 100%);
+  }
+  .founders-photo .photo-tag {
+    position: absolute; bottom: 24px; left: 24px;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--accent); letter-spacing: .14em; text-transform: uppercase;
+    background: rgba(0,0,0,.4); backdrop-filter: blur(8px);
+    padding: 8px 12px; border-radius: 8px;
+    border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .founders-content { padding: 56px 48px 56px 0; }
+  @media (max-width: 900px) { .founders-content { padding: 0 32px 48px; } }
+  .founders-content .quote {
+    font-family: var(--display); font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.25; letter-spacing: -0.01em; margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  .founders-content .quote .q-mark { color: var(--accent); font-size: 1.4em; vertical-align: -0.1em; line-height: 0; margin-right: 6px; }
+  .founders-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 540px) { .founders-roles { grid-template-columns: 1fr; } }
+  .founder-role-card {
+    padding: 20px; border-radius: 16px;
+    background: color-mix(in oklab, var(--paper) 4%, transparent);
+    border: 1px solid var(--line-dark);
+  }
+  .founder-role-card .label { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .founder-role-card.b .label { color: var(--accent-2); }
+  .founder-role-card .role { font-family: var(--display); font-size: 17px; font-weight: 600; line-height: 1.25; }
+  .founder-role-card .desc { font-size: 13px; line-height: 1.5; opacity: .7; margin-top: 8px; }
+
+  /* ============ SERVICES (Editable) ============ */
+  .services-toolbar {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+    padding: 12px 16px;
+    border: 1px dashed var(--line-dark);
+    border-radius: 12px;
+    font-family: var(--mono); font-size: 12px;
+    color: color-mix(in oklab, var(--paper) 70%, transparent);
+  }
+  .services-toolbar .badge {
+    background: var(--accent); color: var(--ink);
+    padding: 4px 10px; border-radius: 999px;
+    font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .services-toolbar button {
+    margin-left: auto;
+    background: transparent; border: 1px solid var(--line-dark);
+    color: var(--paper); padding: 8px 14px; border-radius: 999px;
+    font-family: var(--mono); font-size: 12px; cursor: pointer;
+    transition: all .2s;
+  }
+  .services-toolbar button:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-dark);
+    border-radius: 24px; overflow: hidden;
+    border: 1px solid var(--line-dark);
+  }
+  @media (max-width: 960px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+  .service {
+    background: var(--ink);
+    padding: 36px 32px; min-height: 280px;
+    display: flex; flex-direction: column; gap: 16px;
+    position: relative;
+    transition: background .25s;
+    cursor: pointer;
+  }
+  .service:hover { background: var(--ink-2); }
+  .service .ico {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: color-mix(in oklab, var(--accent) 15%, transparent);
+    color: var(--accent);
+    border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+  .service:nth-child(3n) .ico { background: color-mix(in oklab, var(--accent-2) 15%, transparent); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent-2) 35%, transparent);}
+  .service h3 { font-family: var(--display); font-size: 20px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+  .service p { font-size: 14px; line-height: 1.55; opacity: .7; margin: 0; }
+  .service .tag {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em;
+    color: color-mix(in oklab, var(--paper) 50%, transparent);
+    margin-top: auto;
+    display: flex; align-items:center; justify-content: space-between;
+  }
+  .service .tag .arrow { color: var(--accent); }
+
+  .service.placeholder {
+    background: transparent;
+    border: 1px dashed color-mix(in oklab, var(--paper) 18%, transparent);
+    color: color-mix(in oklab, var(--paper) 50%, transparent);
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .service.placeholder .plus {
+    width: 56px; height: 56px; border-radius: 50%;
+    border: 1px dashed color-mix(in oklab, var(--paper) 25%, transparent);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 24px; margin-bottom: 8px;
+  }
+  .service.placeholder strong { font-family: var(--display); font-weight: 600; color: var(--paper); }
+
+  /* ============ INTEGRATIONS ============ */
+  .integ-shell {
+    position: relative;
+    display: grid; grid-template-columns: 1.1fr .9fr;
+    gap: 64px; align-items: center;
+  }
+  @media (max-width: 900px) { .integ-shell { grid-template-columns: 1fr; } }
+
+  .integ-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .integ-chip {
+    display:flex; align-items:center; gap: 12px;
+    padding: 16px 18px; border-radius: 14px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-family: var(--display); font-weight: 500; font-size: 15px;
+    transition: transform .35s cubic-bezier(.2,.9,.4,1.2), box-shadow .35s, border-color .25s, background .25s;
+    cursor: default;
+  }
+  .integ-chip:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: color-mix(in oklab, var(--accent-2) 60%, transparent);
+    box-shadow: 0 18px 40px -16px color-mix(in oklab, var(--accent-2) 50%, rgba(20,19,58,.3));
+    background: color-mix(in oklab, var(--accent) 6%, var(--paper));
+  }
+  .integ-chip .ic { transition: transform .4s cubic-bezier(.2,.9,.4,1.4); }
+  .integ-chip:hover .ic { transform: rotate(-8deg) scale(1.08); }
+  .integ-chip .ic {
+    width: 36px; height: 36px; border-radius: 8px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink: 0;
+  }
+  .integ-chip .meta { font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--ink) 55%, transparent); text-transform: uppercase; letter-spacing: .1em; margin-top: 2px;}
+
+  .integ-diagram {
+    aspect-ratio: 1/1; max-width: 460px; margin: 0 auto;
+    position: relative;
+  }
+
+  /* ============ CASES ============ */
+  .cases-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  @media (max-width: 900px) { .cases-strip { grid-template-columns: 1fr; } }
+  .case-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 0;
+    overflow: hidden;
+    transition: transform .3s, box-shadow .3s;
+    display: flex; flex-direction: column;
+  }
+  .case-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(20,19,58,.25); }
+  .case-thumb {
+    aspect-ratio: 4/3;
+    background:
+      repeating-linear-gradient(45deg, color-mix(in oklab, var(--ink) 4%, transparent) 0 14px, transparent 14px 28px),
+      linear-gradient(135deg, color-mix(in oklab, var(--accent) 30%, var(--paper)), color-mix(in oklab, var(--accent-2) 25%, var(--paper)));
+    position: relative;
+    display:flex; align-items:flex-end; padding: 20px;
+  }
+  .case-card:nth-child(2) .case-thumb {
+    background:
+      repeating-linear-gradient(-45deg, color-mix(in oklab, var(--ink) 4%, transparent) 0 14px, transparent 14px 28px),
+      linear-gradient(135deg, color-mix(in oklab, var(--accent-2) 30%, var(--paper)), var(--ink-3));
+  }
+  .case-card:nth-child(3) .case-thumb {
+    background:
+      repeating-linear-gradient(45deg, color-mix(in oklab, var(--ink) 4%, transparent) 0 14px, transparent 14px 28px),
+      linear-gradient(135deg, var(--ink), color-mix(in oklab, var(--accent) 25%, var(--ink)));
+  }
+  .case-thumb-tag {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em;
+    background: var(--ink); color: var(--paper);
+    padding: 6px 12px; border-radius: 999px;
+  }
+  .case-body { padding: 24px 28px 28px; flex: 1; display:flex; flex-direction:column; }
+  .case-sector { font-family: var(--mono); font-size: 11px; color: var(--accent-2); text-transform: uppercase; letter-spacing: .12em; }
+  .case-card:nth-child(2) .case-sector { color: var(--accent-2); }
+  .case-card:nth-child(3) .case-sector { color: oklch(70% 0.16 145); }
+  .case-title { font-family: var(--display); font-size: 22px; font-weight: 600; margin: 8px 0 12px; letter-spacing: -0.01em; line-height: 1.15; }
+  .case-result {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .case-metric { font-family: var(--display); font-size: 28px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink);}
+  .case-metric .unit { color: var(--accent-2); }
+  .case-metric-lbl { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: color-mix(in oklab, var(--ink) 55%, transparent); letter-spacing: .1em; text-align: right; max-width: 50%; line-height: 1.3;}
+
+  /* ============ TESTIMONIALS ============ */
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: var(--line-dark);
+    border-radius: 24px; overflow: hidden;
+    border: 1px solid var(--line-dark);
+  }
+  @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; } }
+  .testi {
+    background: var(--ink); padding: 36px 32px;
+    display:flex; flex-direction: column; gap: 20px;
+    min-height: 320px;
+  }
+  .testi .rate { display:flex; gap: 4px; color: var(--accent); }
+  .testi blockquote {
+    font-family: var(--display); font-size: 18px; line-height: 1.45;
+    margin: 0; letter-spacing: -0.01em; flex: 1;
+    text-wrap: pretty;
+  }
+  .testi .author {
+    display: flex; align-items: center; gap: 14px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .testi .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--display); font-weight:600; color: var(--ink); font-size: 16px;
+  }
+  .testi .who { line-height: 1.3; }
+  .testi .who strong { font-family: var(--display); font-weight:600; font-size: 14px; }
+  .testi .who span { display:block; font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--paper) 60%, transparent); text-transform: uppercase; letter-spacing: .08em; margin-top: 2px;}
+
+  /* ============ CONTACT ============ */
+  .contact-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .contact-form {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 36px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .field label {
+    display:block;
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em;
+    color: color-mix(in oklab, var(--ink) 60%, transparent); margin-bottom: 8px;
+  }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-family: var(--body); font-size: 15px;
+    color: var(--ink);
+    transition: border-color .2s, background .2s;
+    outline: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent-2);
+    background: var(--paper);
+  }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .contact-form .btn-primary { justify-content: center; margin-top: 8px; }
+
+  .contact-side h3 {
+    font-family: var(--display); font-size: clamp(28px, 3vw, 40px); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 20px;
+  }
+  .contact-side p { font-size: 17px; line-height: 1.55; opacity: .8; max-width: 460px; }
+  .contact-meta { margin-top: 36px; display: flex; flex-direction: column; gap: 18px; }
+  .contact-meta-row { display:flex; align-items:center; gap: 14px; }
+  .contact-meta-row .ic {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: color-mix(in oklab, var(--accent) 18%, transparent);
+    color: var(--ink-3);
+    display:flex; align-items:center; justify-content:center;
+    border: 1px solid color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .contact-meta-row:nth-child(2) .ic { background: color-mix(in oklab, var(--accent-2) 18%, transparent); border-color: color-mix(in oklab, var(--accent-2) 30%, transparent); }
+  .contact-meta-row .lbl { font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--ink) 55%, transparent); text-transform: uppercase; letter-spacing: .1em; }
+  .contact-meta-row .val { font-family: var(--display); font-weight: 500; font-size: 16px; }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .foot-top { display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 56px; border-bottom: 1px solid var(--line-dark); }
+  @media (max-width: 860px) { .foot-top { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  @media (max-width: 540px) { .foot-top { grid-template-columns: 1fr; } }
+  .foot-brand .logo-row { display:flex; align-items:center; gap: 16px; margin-bottom: 22px; }
+  .foot-brand .logo-row img { width: 64px; height: 64px; display:block; }
+  .foot-brand .logo-row .word { font-family: var(--display); font-weight:700; letter-spacing: .16em; font-size: 22px; }
+  .foot-brand p { opacity: .65; line-height: 1.55; max-width: 320px; }
+
+  .foot-col h4 { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: color-mix(in oklab, var(--paper) 55%, transparent); margin: 0 0 18px; font-weight: 500; }
+  .foot-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .foot-col a { color: var(--paper); text-decoration: none; font-size: 14px; opacity: .8; transition: opacity .2s, color .2s; }
+  .foot-col a:hover { color: var(--accent); opacity: 1;}
+
+  .foot-bottom {
+    padding-top: 32px;
+    display: flex; align-items:center; justify-content: space-between;
+    font-family: var(--mono); font-size: 12px;
+    color: color-mix(in oklab, var(--paper) 50%, transparent);
+    flex-wrap: wrap; gap: 16px;
+  }
+  .socials { display:flex; gap: 10px;}
+  .socials a {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--line-dark);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--paper); transition: background .2s, color .2s, border-color .2s;
+  }
+  .socials a:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s, transform .8s; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">
+      <img src="assets/logo-frater-new.png" alt="Frater IA" />
+    </a>
+    <div class="nav-links">
+      <a href="#fundadores">Fundadores</a>
+      <a href="#solucoes">Soluções</a>
+      <a href="#integracoes">Integrações</a>
+      <a href="#cases">Cases</a>
+      <a href="#contato" class="nav-cta" style="color: rgb(12, 0, 51); line-height: 1.75; letter-spacing: 1px">Falar com a Frater →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top" data-screen-label="Hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+    <!-- Animated floating particles -->
+    <div class="hero-particles">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <!-- Animated mesh lines -->
+    <svg class="hero-mesh" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="meshLine" x1="0" x2="1">
+          <stop offset="0%" stop-color="var(--accent)" stop-opacity="0"/>
+          <stop offset="50%" stop-color="var(--accent)" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="var(--accent-2)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M0,500 Q300,300 600,450 T1200,400" fill="none" stroke="url(#meshLine)" stroke-width="1.2" class="mesh-path mp1"/>
+      <path d="M0,600 Q400,400 800,520 T1200,500" fill="none" stroke="url(#meshLine)" stroke-width="1" class="mesh-path mp2"/>
+      <path d="M0,300 Q300,500 700,350 T1200,300" fill="none" stroke="url(#meshLine)" stroke-width="1" class="mesh-path mp3"/>
+    </svg>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow reveal-up" style="--d:0s"><span class="dot"></span>Automação · IA · Sob medida</span>
+    <h1>
+      <span class="reveal-up" style="--d: .1s">A <span class="grad" style="letter-spacing: 0.6px">inteligência</span></span><br/>
+      <span class="reveal-up" style="--d:.2s">por trás do seu negócio.</span>
+    </h1>
+    <p class="lede reveal-up" style="--d:.4s">
+      Automações e agentes personalizados que vendem, qualificam e atendem 24/7 — do jeito que você fala com seu cliente.
+    </p>
+    <div class="hero-ctas reveal-up" style="--d:.5s">
+      <a class="btn btn-primary" href="#contato">Agendar diagnóstico <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="#solucoes">Ver soluções</a>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+      <span>SCROLL</span>
+      <span class="hero-scroll-line"><span class="hero-scroll-dot"></span></span>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>
+      AGENTES DE IA <span class="star">✦</span>
+      AUTOMAÇÃO COMERCIAL <span class="star">✦</span>
+      ATENDIMENTO 24/7 <span class="star">✦</span>
+      WHATSAPP BUSINESS <span class="star">✦</span>
+      INTEGRAÇÕES SOB MEDIDA <span class="star">✦</span>
+      RAG + DOCUMENTOS <span class="star">✦</span>
+      VOICE AGENTS <span class="star">✦</span>
+    </span>
+    <span>
+      AGENTES DE IA <span class="star">✦</span>
+      AUTOMAÇÃO COMERCIAL <span class="star">✦</span>
+      ATENDIMENTO 24/7 <span class="star">✦</span>
+      WHATSAPP BUSINESS <span class="star">✦</span>
+      INTEGRAÇÕES SOB MEDIDA <span class="star">✦</span>
+      RAG + DOCUMENTOS <span class="star">✦</span>
+      VOICE AGENTS <span class="star">✦</span>
+    </span>
+  </div>
+</div>
+
+<!-- ============ FOUNDERS ============ -->
+<section class="sec-light" id="fundadores" data-screen-label="Fundadores">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">01 / Fundadores</span>
+        <h2 class="sec-title">Dois irmãos.<br/><span class="grad">Uma obsessão.</span></h2>
+      </div>
+      <p class="sec-sub">
+        Frater vem do latim — irmão. Foi com isso em mente que nasceu a Frater IA: uma empresa construída a quatro mãos, onde cada projeto começa por entender o negócio antes de prescrever tecnologia. Sem playbook genérico. Sem agência intermediária.
+      </p>
+    </div>
+
+    <div class="founders-block reveal">
+      <div class="founders-photo" role="img" aria-label="Os dois irmãos fundadores da Frater IA">
+        <span class="photo-tag">OS IRMÃOS · FRATER IA</span>
+      </div>
+      <div class="founders-content">
+        <p class="quote"><span class="q-mark">“</span>Não vendemos IA. Vendemos tempo de volta para quem comanda o negócio — e atendimento que parece humano para quem está do outro lado.<span class="q-mark">”</span></p>
+        <div class="founders-roles">
+          <div class="founder-role-card">
+            <div class="label">CO-FOUNDER</div>
+            <div class="role">Engenharia de IA</div>
+            <div class="desc">Arquitetura de agentes, integrações e modelos. IA bem feita é invisível.</div>
+          </div>
+          <div class="founder-role-card b">
+            <div class="label">CO-FOUNDER</div>
+            <div class="role">Estratégia &amp; Produto</div>
+            <div class="desc">Entende a operação, desenha a solução e entrega com ROI claro.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES (Editable / admin slot) ============ -->
+<section class="sec-dark" id="solucoes" data-screen-label="Soluções">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">02 / Soluções</span>
+        <h2 class="sec-title">Projetos sob<br/>medida — não <span class="grad">templates.</span></h2>
+      </div>
+      <p class="sec-sub">
+        Cada negócio tem um jeito de falar e um cliente diferente do outro. Por isso desenhamos automações específicas para o seu contexto, do zero ou em cima do que você já usa.
+      </p>
+    </div>
+
+    <div class="services-toolbar reveal">
+      <span class="badge">Admin</span>
+      <span>Esta área é sua. Adicione e edite suas soluções diretamente nesta seção.</span>
+      <button id="add-service-btn">+ Nova solução</button>
+    </div>
+
+    <div class="services-grid" id="services-grid">
+      <!-- Service template cards -->
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div>
+        <h3>Atendimento via WhatsApp</h3>
+        <p>Agente conversacional treinado no seu negócio. Responde, qualifica leads, marca reunião e passa para humano quando faz sentido.</p>
+        <div class="tag"><span>WHATSAPP · CRM</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <h3>Automação de processos</h3>
+        <p>Conectamos planilhas, e-mails, ERPs e ferramentas que hoje vivem soltas. O que era manual roda sozinho — e você só recebe o resumo.</p>
+        <div class="tag"><span>ZAPIER · N8N · API</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+        <h3>Agentes com base de conhecimento</h3>
+        <p>Seus documentos, contratos, manuais e históricos viram cérebro para um agente que responde com a precisão do seu time.</p>
+        <div class="tag"><span>RAG · LLM</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4zM5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg></div>
+        <h3>Voice agents</h3>
+        <p>Atendimento por voz com qualidade humana. Recebe ligação, entende a intenção e resolve — ou redireciona com contexto pronto.</p>
+        <div class="tag"><span>TELEFONIA · IA DE VOZ</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></div>
+        <h3>Análise inteligente de dados</h3>
+        <p>Painéis e relatórios que se montam sozinhos. Pergunte em linguagem natural, receba a resposta com gráfico e insight.</p>
+        <div class="tag"><span>BI · IA GENERATIVA</span><span class="arrow">→</span></div>
+      </div>
+
+      <!-- Editable placeholder -->
+      <div class="service placeholder" id="placeholder-service">
+        <div class="plus">+</div>
+        <strong>Adicione uma nova solução</strong>
+        <p>Como administrador, você pode plugar suas próprias automações aqui depois.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS ============ -->
+<section class="sec-paper-2" id="integracoes" data-screen-label="Integrações">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">03 / Integrações</span>
+        <h2 class="sec-title">Conecta com<br/><span class="grad">tudo que você</span> já usa.</h2>
+      </div>
+      <p class="sec-sub">
+        Não pedimos para você trocar de ferramenta. A Frater IA encaixa em cima da sua stack atual — WhatsApp, CRM, ERP, planilhas, e-mail — e amarra tudo.
+      </p>
+    </div>
+
+    <div class="integ-shell">
+      <div class="integ-list">
+        <div class="integ-chip"><div class="ic" style="background:#25D366;color:white;"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0a12 12 0 0 0-10.4 18L0 24l6.2-1.6A12 12 0 0 0 12 24a12 12 0 0 0 8.5-20.5ZM12 22a10 10 0 0 1-5.1-1.4l-.4-.2-3.7.9 1-3.6-.2-.4A10 10 0 1 1 22 12a10 10 0 0 1-10 10Z"/></svg></div><div><div>WhatsApp Business</div><div class="meta">CONVERSAS · API OFICIAL</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#FF7A59;color:white;"><b>HS</b></div><div><div>HubSpot</div><div class="meta">CRM · MARKETING</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#00A1E0;color:white;"><b>SF</b></div><div><div>Salesforce</div><div class="meta">CRM ENTERPRISE</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#0F9D58;color:white;"><b>G</b></div><div><div>Google Workspace</div><div class="meta">SHEETS · GMAIL · DRIVE</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#5865F2;color:white;"><b>SL</b></div><div><div>Slack</div><div class="meta">NOTIFICAÇÕES · BOT</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#FF4A00;color:white;"><b>Z</b></div><div><div>Zapier · n8n</div><div class="meta">AUTOMAÇÃO</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:var(--ink);color:var(--paper);"><b>API</b></div><div><div>API customizada</div><div class="meta">SEU SISTEMA</div></div></div>
+
+        <div class="integ-chip"><div class="ic" style="background:#1F1F1F;color:white;"><b>+</b></div><div><div>E mais 40+</div><div class="meta">ASANA · NOTION · SAP · …</div></div></div>
+      </div>
+
+      <div class="integ-diagram" aria-hidden="true">
+        <svg viewBox="0 0 400 400" width="100%" height="100%">
+          <defs>
+            <radialGradient id="coreG" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="var(--accent-2)"/>
+              <stop offset="100%" stop-color="var(--ink)"/>
+            </radialGradient>
+            <linearGradient id="lineG" x1="0" x2="1">
+              <stop offset="0%" stop-color="var(--accent)" stop-opacity=".0"/>
+              <stop offset="50%" stop-color="var(--accent)" stop-opacity=".8"/>
+              <stop offset="100%" stop-color="var(--accent-2)" stop-opacity=".0"/>
+            </linearGradient>
+          </defs>
+          <!-- outer rings -->
+          <circle cx="200" cy="200" r="180" fill="none" stroke="var(--ink)" stroke-opacity=".08" stroke-dasharray="2 6"/>
+          <circle cx="200" cy="200" r="130" fill="none" stroke="var(--ink)" stroke-opacity=".12" stroke-dasharray="2 6"/>
+          <circle cx="200" cy="200" r="80" fill="none" stroke="var(--ink)" stroke-opacity=".18"/>
+
+          <!-- connection lines -->
+          <g stroke="url(#lineG)" stroke-width="1.4" fill="none">
+            <line x1="200" y1="200" x2="60" y2="80"/>
+            <line x1="200" y1="200" x2="340" y2="80"/>
+            <line x1="200" y1="200" x2="40" y2="220"/>
+            <line x1="200" y1="200" x2="370" y2="240"/>
+            <line x1="200" y1="200" x2="120" y2="360"/>
+            <line x1="200" y1="200" x2="280" y2="360"/>
+          </g>
+
+          <!-- nodes -->
+          <g font-family="JetBrains Mono, monospace" font-size="10" fill="var(--ink)">
+            <g transform="translate(60 80)"><rect x="-26" y="-14" width="52" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">CRM</text></g>
+            <g transform="translate(340 80)"><rect x="-30" y="-14" width="60" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">WHATSAPP</text></g>
+            <g transform="translate(40 220)"><rect x="-22" y="-14" width="44" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">ERP</text></g>
+            <g transform="translate(370 240)"><rect x="-26" y="-14" width="52" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">EMAIL</text></g>
+            <g transform="translate(120 360)"><rect x="-32" y="-14" width="64" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">SHEETS</text></g>
+            <g transform="translate(280 360)"><rect x="-22" y="-14" width="44" height="28" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-opacity=".2"/><text text-anchor="middle" dy=".3em">API</text></g>
+          </g>
+
+          <!-- core -->
+          <circle cx="200" cy="200" r="48" fill="url(#coreG)"/>
+          <circle cx="200" cy="200" r="48" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-opacity=".6">
+            <animate attributeName="r" from="48" to="80" dur="2.4s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" from=".6" to="0" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="200" y="204" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="14" font-weight="600" fill="var(--paper)">FRATER</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASES ============ -->
+<section class="sec-light" id="cases" data-screen-label="Cases">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">04 / Cases</span>
+        <h2 class="sec-title">Resultados<br/>que <span class="grad">conversam</span> melhor.</h2>
+      </div>
+      <p class="sec-sub">
+        Projetos reais, números reais. Cada implantação começa por entender a operação e termina por devolver tempo, vendas e tranquilidade para quem está no comando.
+      </p>
+    </div>
+
+    <div class="cases-strip">
+      <div class="case-card reveal">
+        <div class="case-thumb"><span class="case-thumb-tag">case · pequeno comércio</span></div>
+        <div class="case-body">
+          <span class="case-sector">VAREJO · MODA</span>
+          <h3 class="case-title">Atendimento de WhatsApp que vende sem operador</h3>
+          <div class="case-result">
+            <div class="case-metric">+312<span class="unit">%</span></div>
+            <div class="case-metric-lbl">Conversão de mensagens em pedidos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal">
+        <div class="case-thumb"><span class="case-thumb-tag">case · clínica</span></div>
+        <div class="case-body">
+          <span class="case-sector">SAÚDE · CLÍNICA</span>
+          <h3 class="case-title">Agendamento e confirmação 24/7 sem secretária noturna</h3>
+          <div class="case-result">
+            <div class="case-metric">−68<span class="unit">%</span></div>
+            <div class="case-metric-lbl">Faltas em consultas marcadas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card reveal">
+        <div class="case-thumb"><span class="case-thumb-tag">case · serviço B2B</span></div>
+        <div class="case-body">
+          <span class="case-sector">SERVIÇOS · B2B</span>
+          <h3 class="case-title">Qualificação de leads enquanto o time dorme</h3>
+          <div class="case-result">
+            <div class="case-metric">4.2x</div>
+            <div class="case-metric-lbl">Reuniões qualificadas por mês</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="sec-dark" data-screen-label="Depoimentos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">05 / Depoimentos</span>
+        <h2 class="sec-title">O que dizem<br/>quem já <span class="grad">automatizou</span>.</h2>
+      </div>
+      <p class="sec-sub">
+        Pequenas e médias empresas que pararam de perder mensagem, lead e noite de sono.
+      </p>
+    </div>
+
+    <div class="testi-grid">
+      <div class="testi reveal">
+        <div class="rate">★★★★★</div>
+        <blockquote>"Em 3 semanas o WhatsApp já respondia melhor que a gente. O agente entende contexto, não solta resposta robotizada — e o cliente nem percebe."</blockquote>
+        <div class="author">
+          <div class="avatar">JM</div>
+          <div class="who"><strong>Juliana M.</strong><span>Diretora · Boutique de moda</span></div>
+        </div>
+      </div>
+      <div class="testi reveal">
+        <div class="rate">★★★★★</div>
+        <blockquote>"O que mais me marcou foi o cuidado. Os irmãos sentaram com a equipe, entenderam a operação e depois entregaram. Não é agência, é parceria."</blockquote>
+        <div class="author">
+          <div class="avatar">RS</div>
+          <div class="who"><strong>Rafael S.</strong><span>Sócio · Clínica odontológica</span></div>
+        </div>
+      </div>
+      <div class="testi reveal">
+        <div class="rate">★★★★★</div>
+        <blockquote>"Cortei tarefas manuais que tomavam 4 horas por dia da minha equipe. O ROI veio no segundo mês — e eu nem mexo nas planilhas mais."</blockquote>
+        <div class="author">
+          <div class="avatar">CL</div>
+          <div class="who"><strong>Camila L.</strong><span>Fundadora · Agência de marketing</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="sec-paper-2" id="contato" data-screen-label="Contato">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom: 56px;">
+      <div>
+        <span class="sec-num">06 / Vamos conversar</span>
+        <h2 class="sec-title">Conta pra gente<br/>seu <span class="grad">desafio.</span></h2>
+      </div>
+      <p class="sec-sub">
+        Resposta em até 24h úteis. A primeira conversa é um diagnóstico — gratuito, sem amarração — para identificar onde a IA realmente faz diferença no seu negócio.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <form class="contact-form reveal" id="contact-form" onsubmit="handleContact(event)">
+        <div class="field-row">
+          <div class="field">
+            <label for="f-nome">Nome</label>
+            <input id="f-nome" type="text" placeholder="Como podemos te chamar" required />
+          </div>
+          <div class="field">
+            <label for="f-empresa">Empresa</label>
+            <input id="f-empresa" type="text" placeholder="Nome da empresa" />
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" type="email" placeholder="seu@email.com" required />
+          </div>
+          <div class="field">
+            <label for="f-tel">WhatsApp</label>
+            <input id="f-tel" type="tel" placeholder="(00) 00000-0000" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-area">Área de interesse</label>
+          <select id="f-area">
+            <option>Atendimento via WhatsApp</option>
+            <option>Automação de processos</option>
+            <option>Agentes com base de conhecimento</option>
+            <option>Voice agents</option>
+            <option>Análise inteligente de dados</option>
+            <option>Outro / preciso de diagnóstico</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-msg">Sobre o desafio</label>
+          <textarea id="f-msg" placeholder="O que está custando tempo ou venda hoje?"></textarea>
+        </div>
+        <button type="submit" id="contact-btn" class="btn btn-primary">Enviar e agendar diagnóstico <span class="arrow">→</span></button>
+        <p id="contact-feedback" style="display:none;font-family:var(--mono);font-size:13px;margin:10px 0 0"></p>
+      </form>
+
+      <div class="contact-side reveal">
+        <h3>O primeiro passo é uma conversa.</h3>
+        <p>Em 30 minutos a gente entende seu fluxo, identifica os 2-3 pontos onde IA gera mais retorno e devolve um plano. Sem proposta inflada.</p>
+        <div class="contact-meta">
+          <div class="contact-meta-row">
+            <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0a12 12 0 0 0-10.4 18L0 24l6.2-1.6A12 12 0 0 0 12 24a12 12 0 0 0 8.5-20.5Z"/></svg></div>
+            <div>
+              <div class="lbl">WhatsApp direto</div>
+              <div class="val"><a href="https://wa.me/5538991003466" style="color:inherit;text-decoration:none">(38) 99100-3466 →</a></div>
+            </div>
+          </div>
+          <div class="contact-meta-row">
+            <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg></div>
+            <div>
+              <div class="lbl">E-mail</div>
+              <div class="val">contato@frateria.site</div>
+            </div>
+          </div>
+          <div class="contact-meta-row">
+            <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <div>
+              <div class="lbl">Resposta</div>
+              <div class="val">Em até 24h úteis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer data-screen-label="Footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="logo-row">
+          <img src="assets/logo-frater-new.png" alt="Frater IA" style="width: 68px; height: 60px" />
+          <span class="word">FRATER<span style="color:var(--accent)">·</span>IA</span>
+        </div>
+        <p>Automação e inteligência artificial sob medida para empresas que querem conversar melhor — com clientes, com dados e com o futuro.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Soluções</h4>
+        <ul>
+          <li><a href="#solucoes">WhatsApp IA</a></li>
+          <li><a href="#solucoes">Automação</a></li>
+          <li><a href="#solucoes">Agentes RAG</a></li>
+          <li><a href="#solucoes">Voice agents</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#fundadores">Fundadores</a></li>
+          <li><a href="#cases">Cases</a></li>
+          <li><a href="#integracoes">Integrações</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="mailto:contato@frateria.site">contato@frateria.site</a></li>
+          <li><a href="https://wa.me/5538991003466">(38) 99100-3466</a></li>
+          <li><a href="https://instagram.com/frater.ia">@frater.ia</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 FRATER IA · CNPJ 34.155.991/0001-01 · Feito por dois irmãos.</span>
+      <div class="socials">
+        <a href="https://instagram.com/frater.ia" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v16H4zM6 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM10 8h4v2.2c.6-1 2-2.4 4.4-2.4 4.6 0 5.6 3 5.6 6.6V20h-4v-5.2c0-1.4-.4-3-2.4-3s-2.6 1.6-2.6 3.2V20h-4z"/></svg></a>
+        <a href="https://wa.me/5538991003466" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0a12 12 0 0 0-10.4 18L0 24l6.2-1.6A12 12 0 0 0 12 24a12 12 0 0 0 8.5-20.5Z"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.2-1.6-.9-2.3c-.8-.9-1.8-.9-2.2-1C16.7 3.5 12 3.5 12 3.5s-4.7 0-7.9.2c-.4.1-1.4.1-2.2 1C1.2 5.4 1 7 1 7S.8 9 .8 11v2c0 2 .2 4 .2 4s.2 1.6.9 2.3c.8.9 1.9.9 2.4 1 1.7.2 7.7.2 7.7.2s4.7 0 7.9-.2c.4-.1 1.4-.1 2.2-1 .7-.7.9-2.3.9-2.3s.2-2 .2-4v-2c0-2-.2-4-.2-4zM10 15V9l5 3-5 3z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CHAT POPUP (n8n webhook ready) ============ -->
+<div id="frater-bot">
+  <button class="fb-launcher" aria-label="Abrir chat">
+    <span class="fb-mascot">
+      <span class="fb-mascot-shadow"></span>
+      <span class="fb-mascot-aura"></span>
+      <svg class="fb-mascot-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="botBody" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#3b3a78"/>
+            <stop offset="55%" stop-color="#1f1d52"/>
+            <stop offset="100%" stop-color="#0a0928"/>
+          </radialGradient>
+          <radialGradient id="botHighlight" cx="30%" cy="20%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.45)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </radialGradient>
+          <linearGradient id="visorG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0a0820"/>
+            <stop offset="50%" stop-color="#050516"/>
+            <stop offset="100%" stop-color="#0a0820"/>
+          </linearGradient>
+          <radialGradient id="eyeG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#d4ffd9"/>
+            <stop offset="40%" stop-color="var(--accent)"/>
+            <stop offset="100%" stop-color="oklch(50% 0.18 145)"/>
+          </radialGradient>
+          <radialGradient id="earG" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#c9a4ff"/>
+            <stop offset="100%" stop-color="var(--accent-2)"/>
+          </radialGradient>
+          <filter id="botGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000" flood-opacity="0.45"/>
+          </filter>
+        </defs>
+        <g class="bot-float">
+          <!-- Antenna -->
+          <g class="bot-antenna">
+            <line x1="100" y1="40" x2="100" y2="22" stroke="#5e5b9e" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="100" cy="18" r="6" fill="url(#eyeG)" filter="url(#botGlow)" class="bot-bulb"/>
+          </g>
+          <!-- Ears -->
+          <g class="bot-ear left">
+            <rect x="30" y="82" width="14" height="32" rx="6" fill="url(#earG)" filter="url(#softShadow)"/>
+            <rect x="33" y="86" width="8" height="6" rx="3" fill="#fff" opacity="0.45"/>
+          </g>
+          <g class="bot-ear right">
+            <rect x="156" y="82" width="14" height="32" rx="6" fill="url(#earG)" filter="url(#softShadow)"/>
+            <rect x="159" y="86" width="8" height="6" rx="3" fill="#fff" opacity="0.45"/>
+          </g>
+          <!-- Head capsule -->
+          <g filter="url(#softShadow)">
+            <rect x="38" y="42" width="124" height="110" rx="34" fill="url(#botBody)"/>
+            <!-- Top highlight -->
+            <ellipse cx="100" cy="60" rx="58" ry="22" fill="url(#botHighlight)"/>
+            <!-- Side rim shading -->
+            <rect x="38" y="42" width="124" height="110" rx="34" fill="none" stroke="rgba(125,235,140,0.25)" stroke-width="1"/>
+          </g>
+          <!-- Visor -->
+          <g class="bot-visor">
+            <rect x="54" y="72" width="92" height="60" rx="22" fill="url(#visorG)"/>
+            <rect x="54" y="72" width="92" height="60" rx="22" fill="none" stroke="rgba(125,235,140,0.4)" stroke-width="1"/>
+            <!-- visor reflection -->
+            <path d="M 60 80 Q 100 88 140 80 L 140 90 Q 100 98 60 90 Z" fill="rgba(255,255,255,0.06)"/>
+            <!-- Three eyes (triangular layout) -->
+            <g class="bot-eyes">
+              <circle cx="100" cy="86" r="6" fill="url(#eyeG)" filter="url(#botGlow)" class="bot-eye e1"/>
+              <circle cx="77" cy="114" r="6" fill="url(#eyeG)" filter="url(#botGlow)" class="bot-eye e2"/>
+              <circle cx="123" cy="114" r="6" fill="url(#eyeG)" filter="url(#botGlow)" class="bot-eye e3"/>
+              <circle cx="102" cy="84" r="1.5" fill="#fff"/>
+              <circle cx="79" cy="112" r="1.5" fill="#fff"/>
+              <circle cx="125" cy="112" r="1.5" fill="#fff"/>
+            </g>
+            <!-- Scan line -->
+            <rect x="56" y="74" width="88" height="2" rx="1" fill="var(--accent)" opacity="0.6" class="bot-scan"/>
+          </g>
+          <!-- Cheeks (subtle blush) -->
+          <ellipse cx="58" cy="122" rx="6" ry="3" fill="var(--accent-2)" opacity="0.35"/>
+          <ellipse cx="142" cy="122" rx="6" ry="3" fill="var(--accent-2)" opacity="0.35"/>
+          <!-- Chin LED strip -->
+          <g class="bot-leds">
+            <circle cx="86" cy="144" r="3" fill="var(--accent)" class="bot-led l1"/>
+            <circle cx="100" cy="144" r="3" fill="var(--accent-2)" class="bot-led l2"/>
+            <circle cx="114" cy="144" r="3" fill="var(--accent)" class="bot-led l3"/>
+          </g>
+          <!-- Bottom rim shadow for 3D feel -->
+          <ellipse cx="100" cy="152" rx="50" ry="4" fill="rgba(0,0,0,0.5)" opacity="0.4"/>
+        </g>
+      </svg>
+      <span class="fb-orbit-particle p1"></span>
+      <span class="fb-orbit-particle p2"></span>
+      <span class="fb-orbit-particle p3"></span>
+    </span>
+    <span class="fb-launcher-bubble">
+      <span class="fb-bubble-text">Oi! Sou o FraterBot ✨</span>
+    </span>
+  </button>
+
+  <div class="fb-window" role="dialog" aria-label="Frater Bot">
+    <div class="fb-header">
+      <div class="fb-mini-mascot" aria-hidden="true">
+        <svg viewBox="0 0 50 50" width="40" height="40">
+          <defs>
+            <radialGradient id="miniBody" cx="50%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#3b3a78"/>
+              <stop offset="100%" stop-color="#0a0928"/>
+            </radialGradient>
+            <radialGradient id="miniEye" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#d4ffd9"/>
+              <stop offset="100%" stop-color="var(--accent)"/>
+            </radialGradient>
+          </defs>
+          <rect x="6" y="10" width="38" height="32" rx="12" fill="url(#miniBody)" stroke="rgba(125,235,140,0.3)" stroke-width=".5"/>
+          <rect x="11" y="17" width="28" height="18" rx="7" fill="#050516" stroke="rgba(125,235,140,0.4)" stroke-width=".5"/>
+          <circle cx="25" cy="22" r="2" fill="url(#miniEye)" class="mini-eye"/>
+          <circle cx="19" cy="30" r="2" fill="url(#miniEye)" class="mini-eye"/>
+          <circle cx="31" cy="30" r="2" fill="url(#miniEye)" class="mini-eye"/>
+          <line x1="25" y1="5" x2="25" y2="10" stroke="#5e5b9e" stroke-width="1"/>
+          <circle cx="25" cy="4" r="1.8" fill="var(--accent)"/>
+        </svg>
+      </div>
+      <div class="fb-id">
+        <strong>FraterBot</strong>
+        <span><span class="fb-online"></span> online · responde em segundos</span>
+      </div>
+      <button class="fb-close" aria-label="Fechar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="fb-body" id="fb-body">
+      <div class="fb-msg bot">
+        <span class="fb-bubble">Oi! Eu sou o <b>FraterBot</b> — o agente da Frater IA. Tipo aquele primo que entende de tecnologia, mas nunca te julga 😄</span>
+      </div>
+      <div class="fb-msg bot">
+        <span class="fb-bubble">Posso te ajudar a descobrir <em>onde</em> a IA daria mais retorno no seu negócio. Por onde começamos?</span>
+      </div>
+      <div class="fb-quicks" id="fb-quicks">
+        <button data-q="Quero automatizar meu WhatsApp">💬 WhatsApp inteligente</button>
+        <button data-q="Quero reduzir tarefas manuais">⚡ Automação de processos</button>
+        <button data-q="Quero agendar um diagnóstico gratuito">📅 Agendar diagnóstico</button>
+        <button data-q="Quero saber preços">💰 Falar de investimento</button>
+      </div>
+    </div>
+    <form class="fb-input" id="fb-form" autocomplete="off">
+      <input id="fb-text" type="text" placeholder="Escreva uma mensagem..." />
+      <button type="submit" aria-label="Enviar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z"/></svg>
+      </button>
+    </form>
+    <div class="fb-foot">Powered by <b>Frater IA</b> · conectado via n8n</div>
+  </div>
+</div>
+
+<style>
+  #frater-bot { position: fixed; bottom: 80px; right: 24px; z-index: 100; font-family: var(--body); }
+
+  /* Launcher */
+  .fb-launcher {
+    position: relative;
+    display: flex; flex-direction: column-reverse; align-items: center; gap: 0;
+    background: transparent; border: none; cursor: pointer; padding: 0;
+  }
+
+  /* ===== 3D Mascot — SVG-based ===== */
+  .fb-mascot {
+    position: relative;
+    width: 110px; height: 124px;
+    filter: drop-shadow(0 12px 24px rgba(0,0,0,.45));
+  }
+  .fb-mascot-svg { width: 100%; height: 100%; overflow: visible; }
+  .bot-float { transform-origin: 100px 110px; animation: bot-float 4s ease-in-out infinite; }
+  @keyframes bot-float {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-6px) rotate(2deg); }
+  }
+  .bot-antenna { transform-origin: 100px 40px; animation: bot-antenna 2s ease-in-out infinite; }
+  @keyframes bot-antenna {
+    0%,100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  .bot-bulb { animation: bot-bulb 1.4s ease-in-out infinite; }
+  @keyframes bot-bulb {
+    0%,100% { opacity: 1; r: 6; }
+    50% { opacity: .5; r: 5; }
+  }
+  .bot-eye { animation: bot-blink 4.5s infinite; transform-origin: center; transform-box: fill-box; }
+  .bot-eye.e2 { animation-delay: .1s; }
+  .bot-eye.e3 { animation-delay: .2s; }
+  @keyframes bot-blink {
+    0%, 88%, 100% { transform: scaleY(1); }
+    92%, 96% { transform: scaleY(.1); }
+  }
+  .bot-scan { animation: bot-scan 3.5s linear infinite; }
+  @keyframes bot-scan {
+    0% { transform: translateY(0); opacity: 0; }
+    20% { opacity: .8; }
+    80% { opacity: .8; }
+    100% { transform: translateY(56px); opacity: 0; }
+  }
+  .bot-led { animation: bot-led 1.4s infinite; transform-origin: center; transform-box: fill-box; }
+  .bot-led.l2 { animation-delay: .15s; }
+  .bot-led.l3 { animation-delay: .3s; }
+  @keyframes bot-led {
+    0%,100% { opacity: .35; transform: scale(.85); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  .bot-ear { transform-origin: 50% 100%; transform-box: fill-box; }
+  .bot-ear.left { animation: ear-wiggle-l 3s ease-in-out infinite; }
+  .bot-ear.right { animation: ear-wiggle-r 3s ease-in-out infinite; }
+  @keyframes ear-wiggle-l { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(-8deg); } }
+  @keyframes ear-wiggle-r { 0%,100% { transform: rotate(2deg); } 50% { transform: rotate(8deg); } }
+
+  .fb-mascot-shadow {
+    position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 12px; border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,.55), transparent 70%);
+    filter: blur(4px);
+    animation: shadow-pulse 4s ease-in-out infinite;
+  }
+  @keyframes shadow-pulse {
+    0%,100% { transform: translateX(-50%) scale(1); opacity: .55; }
+    50% { transform: translateX(-50%) scale(.85); opacity: .35; }
+  }
+  .fb-mascot-aura {
+    position: absolute; inset: -16px;
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 40%, transparent), transparent 60%);
+    filter: blur(16px);
+    animation: aura-pulse 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes aura-pulse {
+    0%,100% { opacity: .55; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+
+  /* Orbiting particles */
+  .fb-orbit-particle {
+    position: absolute; top: 50%; left: 50%;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    pointer-events: none;
+  }
+  .fb-orbit-particle.p1 { animation: orbit-1 4s linear infinite; }
+  .fb-orbit-particle.p2 { background: var(--accent-2); box-shadow: 0 0 10px var(--accent-2); animation: orbit-2 5s linear infinite; }
+  .fb-orbit-particle.p3 { animation: orbit-3 6s linear infinite; }
+  @keyframes orbit-1 { from { transform: rotate(0) translateX(64px) rotate(0); } to { transform: rotate(360deg) translateX(64px) rotate(-360deg); } }
+  @keyframes orbit-2 { from { transform: rotate(120deg) translateX(70px) rotate(-120deg); } to { transform: rotate(480deg) translateX(70px) rotate(-480deg); } }
+  @keyframes orbit-3 { from { transform: rotate(240deg) translateX(58px) rotate(-240deg); } to { transform: rotate(600deg) translateX(58px) rotate(-600deg); } }
+
+  .fb-launcher:hover .bot-float { animation-duration: 1.6s; }
+
+  .fb-launcher-bubble {
+    position: relative;
+    background: var(--ink); color: var(--paper);
+    padding: 10px 16px; border-radius: 14px;
+    font-family: var(--display); font-weight: 500; font-size: 13px;
+    box-shadow: 0 14px 30px -10px rgba(0,0,0,.5);
+    border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+    white-space: nowrap;
+    margin-bottom: 14px;
+    transform-origin: bottom center;
+    animation: bubble-pop 0.6s cubic-bezier(.2,.9,.4,1.4) 1.4s both, bubble-bob 3s ease-in-out 2s infinite;
+  }
+  /* tail pointing DOWN to the robot */
+  .fb-launcher-bubble::before {
+    content: ""; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%) rotate(45deg);
+    width: 14px; height: 14px;
+    background: var(--ink);
+    border-right: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+  @keyframes bubble-pop {
+    from { opacity: 0; transform: scale(.5) translateX(20px); }
+    to { opacity: 1; transform: scale(1) translateX(0); }
+  }
+  @keyframes bubble-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+  #frater-bot.open .fb-launcher { display: none; }
+  #frater-bot.open .fb-window { display: flex; }
+
+  /* Window */
+  .fb-window {
+    display: none;
+    flex-direction: column;
+    width: min(380px, calc(100vw - 32px));
+    height: min(580px, calc(100vh - 48px));
+    background: var(--paper);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,.4), 0 0 0 1px var(--line);
+    animation: win-in .35s cubic-bezier(.2,.9,.4,1.2);
+    transform-origin: bottom right;
+  }
+  @keyframes win-in {
+    from { opacity: 0; transform: scale(.85) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .fb-header {
+    display:flex; align-items:center; gap: 12px;
+    padding: 16px 18px;
+    background: var(--ink); color: var(--paper);
+    position: relative; overflow: hidden;
+  }
+  .fb-header::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 100% 100% at 100% 0%, color-mix(in oklab, var(--accent-2) 50%, transparent), transparent 60%);
+    pointer-events: none;
+  }
+  .mini-eye { animation: bot-blink 4.5s infinite; transform-origin: center; transform-box: fill-box; }
+  .mini-eye:nth-child(2) { animation-delay: .1s; }
+  .mini-eye:nth-child(3) { animation-delay: .2s; }
+
+  .fb-mini-mascot {
+    position: relative; z-index: 1;
+    width: 40px; height: 40px;
+    background: radial-gradient(circle at 30% 30%, var(--ink-2), var(--ink));
+    border-radius: 12px;
+    border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent);
+    box-shadow: 0 0 16px color-mix(in oklab, var(--accent) 30%, transparent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fb-mini-head {
+    display: flex; gap: 5px;
+  }
+  .fb-mini-eye {
+    width: 6px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: m-eye-blink 4s infinite;
+  }
+  .fb-id { flex: 1; line-height: 1.2; position: relative; z-index: 1; }
+  .fb-id strong { font-family: var(--display); font-weight: 600; font-size: 15px; display:block; }
+  .fb-id span { font-family: var(--mono); font-size: 11px; color: color-mix(in oklab, var(--paper) 60%, transparent); display:flex; align-items:center; gap: 6px; margin-top: 2px; }
+  .fb-online { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); animation: pulse 2s infinite; display:inline-block; }
+  .fb-close {
+    background: transparent; border: 1px solid var(--line-dark);
+    color: var(--paper); width: 32px; height: 32px; border-radius: 50%;
+    display:flex; align-items:center; justify-content:center; cursor: pointer;
+    position: relative; z-index: 1;
+    transition: background .25s, transform .25s;
+  }
+  .fb-close:hover { background: color-mix(in oklab, var(--paper) 12%, transparent); transform: rotate(90deg); }
+
+  .fb-body {
+    flex: 1; padding: 18px;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: 10px;
+    background:
+      radial-gradient(circle at 0 0, color-mix(in oklab, var(--accent) 8%, transparent), transparent 40%),
+      radial-gradient(circle at 100% 100%, color-mix(in oklab, var(--accent-2) 8%, transparent), transparent 40%),
+      var(--paper);
+  }
+  .fb-msg { display:flex; max-width: 86%; animation: msg-in .35s ease both; }
+  @keyframes msg-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fb-msg.bot { align-self: flex-start; }
+  .fb-msg.user { align-self: flex-end; }
+  .fb-bubble {
+    padding: 12px 14px; border-radius: 16px;
+    font-size: 14px; line-height: 1.45;
+    background: var(--paper-2); color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .fb-msg.bot .fb-bubble { border-bottom-left-radius: 4px; }
+  .fb-msg.user .fb-bubble {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--ink); border: none;
+    border-bottom-right-radius: 4px; font-weight: 500;
+  }
+  .fb-typing { display:flex; gap: 4px; padding: 14px 16px; background: var(--paper-2); border-radius: 16px 16px 16px 4px; border: 1px solid var(--line); width: fit-content;}
+  .fb-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink); opacity: .3; animation: dot 1.2s infinite; }
+  .fb-typing span:nth-child(2) { animation-delay: .15s; }
+  .fb-typing span:nth-child(3) { animation-delay: .3s; }
+  @keyframes dot { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+
+  .fb-quicks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .fb-quicks button {
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 8px 12px; border-radius: 999px;
+    font-family: var(--body); font-size: 12.5px;
+    color: var(--ink); cursor: pointer;
+    transition: all .25s;
+  }
+  .fb-quicks button:hover {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -8px rgba(0,0,0,.4);
+  }
+
+  .fb-input {
+    display: flex; gap: 8px; padding: 14px;
+    border-top: 1px solid var(--line); background: var(--paper);
+  }
+  .fb-input input {
+    flex: 1; padding: 12px 14px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--paper-2);
+    font-family: var(--body); font-size: 14px;
+    outline: none; color: var(--ink);
+    transition: border-color .25s, background .25s;
+  }
+  .fb-input input:focus { border-color: var(--accent-2); background: var(--paper); }
+  .fb-input button {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--ink); border: none; cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: transform .25s, box-shadow .25s;
+    box-shadow: 0 6px 18px -6px color-mix(in oklab, var(--accent-2) 70%, transparent);
+  }
+  .fb-input button:hover { transform: scale(1.1) rotate(-12deg); box-shadow: 0 12px 24px -6px color-mix(in oklab, var(--accent-2) 80%, transparent); }
+
+  .fb-foot {
+    text-align: center;
+    font-family: var(--mono); font-size: 10px;
+    color: color-mix(in oklab, var(--ink) 50%, transparent);
+    padding: 8px; background: var(--paper);
+    letter-spacing: .08em; text-transform: uppercase;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 540px) {
+    #frater-bot { bottom: 90px; right: 16px; }
+    .fb-launcher-bubble { display: none; }
+  }
+</style>
+
+<script>
+  // ====== FraterBot ======
+  // Configure n8n webhook here:
+  (function(){})();
+
+  window.FRATER_BOT_WEBHOOK = ''; // ex: 'https://your-n8n.example.com/webhook/frater-bot'
+
+  (function(){
+    const root = document.getElementById('frater-bot');
+    const launcher = root.querySelector('.fb-launcher');
+    const closeBtn = root.querySelector('.fb-close');
+    const body = document.getElementById('fb-body');
+    const form = document.getElementById('fb-form');
+    const input = document.getElementById('fb-text');
+    const quicks = document.getElementById('fb-quicks');
+    const sessionId = 'frater-' + Math.random().toString(36).slice(2, 10);
+
+    function open(){ root.classList.add('open'); setTimeout(() => input.focus(), 300); }
+    function close(){ root.classList.remove('open'); }
+    launcher.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    function addMsg(text, who) {
+      const el = document.createElement('div');
+      el.className = 'fb-msg ' + who;
+      const b = document.createElement('span');
+      b.className = 'fb-bubble';
+      b.textContent = text;
+      el.appendChild(b);
+      body.appendChild(el);
+      body.scrollTop = body.scrollHeight;
+      return el;
+    }
+    function addTyping() {
+      const el = document.createElement('div');
+      el.className = 'fb-msg bot';
+      el.innerHTML = '<div class="fb-typing"><span></span><span></span><span></span></div>';
+      body.appendChild(el);
+      body.scrollTop = body.scrollHeight;
+      return el;
+    }
+
+    async function sendToWebhook(message) {
+      const typing = addTyping();
+      try {
+        if (window.FRATER_BOT_WEBHOOK) {
+          const r = await fetch(window.FRATER_BOT_WEBHOOK, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ sessionId, message, source: 'landing-frater-ia', ts: Date.now() })
+          });
+          const data = await r.json().catch(() => ({}));
+          typing.remove();
+          addMsg(data.reply || data.message || 'Recebi sua mensagem! Em breve um dos irmãos te chama por aqui ou pelo WhatsApp.', 'bot');
+        } else {
+          // Fallback when webhook not configured
+          await new Promise(r => setTimeout(r, 900));
+          typing.remove();
+          const fallbacks = [
+            'Anotado! Para te dar a melhor resposta, posso te conectar com um dos irmãos no WhatsApp: (38) 99100-3466 — quer que eu te leve até lá?',
+            'Boa! Esse é exatamente o tipo de problema que a gente resolve. Topa marcar 30min de diagnóstico gratuito?',
+            'Entendi! Vou registrar seu interesse. Me passa seu nome e e-mail que um dos fundadores te responde ainda hoje.'
+          ];
+          addMsg(fallbacks[Math.floor(Math.random() * fallbacks.length)], 'bot');
+        }
+      } catch (e) {
+        typing.remove();
+        addMsg('Tive um problema para te responder agora. Você pode falar direto no WhatsApp: (38) 99100-3466 🙏', 'bot');
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const v = input.value.trim();
+      if (!v) return;
+      addMsg(v, 'user');
+      input.value = '';
+      if (quicks) quicks.style.display = 'none';
+      sendToWebhook(v);
+    });
+
+    quicks.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const q = btn.dataset.q;
+      addMsg(q, 'user');
+      quicks.style.display = 'none';
+      sendToWebhook(q);
+    });
+  })();
+</script>
+
+<!-- ============ BACKEND ============ -->
+<script>
+  window.FRATER_BOT_WEBHOOK = '/api/chat';
+
+  async function handleContact(e) {
+    e.preventDefault();
+    const btn      = document.getElementById('contact-btn');
+    const feedback = document.getElementById('contact-feedback');
+
+    const body = {
+      nome:     document.getElementById('f-nome').value,
+      empresa:  document.getElementById('f-empresa').value,
+      email:    document.getElementById('f-email').value,
+      telefone: document.getElementById('f-tel').value,
+      area:     document.getElementById('f-area').value,
+      mensagem: document.getElementById('f-msg').value,
+    };
+
+    btn.disabled = true;
+    btn.innerHTML = 'Enviando… <span class="arrow">↻</span>';
+    feedback.style.display = 'none';
+
+    try {
+      const r = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Erro ao enviar. Tente novamente.');
+
+      btn.innerHTML = 'Mensagem enviada! ✓';
+      btn.style.background = 'var(--green)';
+      feedback.style.cssText = 'display:block;color:var(--green);font-family:var(--mono);font-size:13px;margin:10px 0 0';
+      feedback.textContent = 'Recebemos seu contato. Um dos irmãos responde em até 24h úteis.';
+      document.getElementById('contact-form').reset();
+    } catch (err) {
+      btn.disabled = false;
+      btn.innerHTML = 'Tentar novamente <span class="arrow">→</span>';
+      feedback.style.cssText = 'display:block;color:#e05555;font-family:var(--mono);font-size:13px;margin:10px 0 0';
+      feedback.textContent = err.message;
+    }
+  }
+</script>
+
+<!-- ============ TWEAKS ============ -->
+<div id="tweaks-root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script type="text/babel">
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "palette": "verde-roxo",
+    "accent": "#7DEB8C",
+    "accent2": "#A57BFF",
+    "darkness": 1
+  }/*EDITMODE-END*/;
+
+  function FraterTweaks() {
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+    React.useEffect(() => {
+      const root = document.documentElement;
+      const presets = {
+        "verde-roxo": { accent: "oklch(85% 0.20 145)", accent2: "oklch(64% 0.20 295)" },
+        "verde-foco": { accent: "oklch(82% 0.21 150)", accent2: "oklch(50% 0.04 280)" },
+        "roxo-foco": { accent: "oklch(72% 0.18 295)", accent2: "oklch(55% 0.22 290)" },
+        "mono":       { accent: "oklch(92% 0.02 90)",  accent2: "oklch(70% 0.02 90)" },
+        "custom":     { accent: t.accent, accent2: t.accent2 }
+      };
+      const p = presets[t.palette] || presets["verde-roxo"];
+      root.style.setProperty('--accent', p.accent);
+      root.style.setProperty('--accent-2', p.accent2);
+    }, [t.palette, t.accent, t.accent2]);
+
+    return (
+      <TweaksPanel title="Tweaks · Cores">
+        <TweakSection title="Paleta">
+          <TweakRadio
+            value={t.palette}
+            onChange={v => setTweak('palette', v)}
+            options={[
+              { value: 'verde-roxo', label: 'Verde + Roxo' },
+              { value: 'verde-foco', label: 'Verde foco' },
+              { value: 'roxo-foco', label: 'Roxo foco' },
+              { value: 'mono', label: 'Mono' },
+              { value: 'custom', label: 'Custom' },
+            ]}
+          />
+        </TweakSection>
+        {t.palette === 'custom' && (
+          <TweakSection title="Cores customizadas">
+            <TweakColor
+              label="Acento 1"
+              value={t.accent}
+              onChange={v => setTweak('accent', v)}
+              options={['#7DEB8C','#34D399','#10B981','#A3E635']}
+            />
+            <TweakColor
+              label="Acento 2"
+              value={t.accent2}
+              onChange={v => setTweak('accent2', v)}
+              options={['#A57BFF','#8B5CF6','#7C3AED','#C084FC']}
+            />
+          </TweakSection>
+        )}
+      </TweaksPanel>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('tweaks-root')).render(<FraterTweaks />);
+</script>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const t = document.getElementById(id);
+      if (!t) return;
+      e.preventDefault();
+      window.scrollTo({ top: t.offsetTop - 60, behavior: 'smooth' });
+    });
+  });
+
+  // "Add service" — admin demo (visual only)
+  document.getElementById('add-service-btn')?.addEventListener('click', () => {
+    const grid = document.getElementById('services-grid');
+    const ph = document.getElementById('placeholder-service');
+    const card = document.createElement('div');
+    card.className = 'service';
+    card.innerHTML = `
+      <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M7 12h10"/></svg></div>
+      <h3 contenteditable="true" spellcheck="false">Nova solução</h3>
+      <p contenteditable="true" spellcheck="false">Descreva aqui sua nova oferta. Conte o que ela resolve, em que ferramenta atua e qual o ganho concreto.</p>
+      <div class="tag"><span>EDITÁVEL</span><span class="arrow">→</span></div>
+    `;
+    grid.insertBefore(card, ph);
+  });
+
+  // Inércia do FraterBot — sway baseado na velocidade de scroll
+  (function(){
+    const bot = document.getElementById('frater-bot');
+    if (!bot) return;
+    let lastY = window.scrollY;
+    let offset = 0, vel = 0, target = 0;
+    let raf = null, lastTs = 0;
+    const MAX = 12;            // máximo de deslocamento em px (bem sutil)
+    const PUSH = 0.07;         // quanto cada px de scroll empurra o bot
+    const STIFFNESS = 0.05;    // mola frouxa = movimento muito suave
+    const DAMP = 0.94;         // amortecimento alto = retorno gentil
+    const TARGET_DECAY = 0.94;
+
+    function tick(ts) {
+      target *= TARGET_DECAY;
+      const force = (target - offset) * STIFFNESS;
+      vel = (vel + force) * DAMP;
+      offset += vel;
+      // pequena rotação solidária ao deslocamento
+      const rot = Math.max(-1.2, Math.min(1.2, offset * 0.04));
+      bot.style.transform = 'translateY(' + offset.toFixed(2) + 'px) rotate(' + rot.toFixed(2) + 'deg)';
+      if (Math.abs(vel) > 0.04 || Math.abs(offset) > 0.1 || Math.abs(target) > 0.1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        offset = 0; vel = 0; target = 0;
+        bot.style.transform = '';
+        raf = null;
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      const dy = y - lastY;
+      lastY = y;
+      // scroll para baixo empurra o bot pra cima (sensação de "ficar pra trás")
+      target = Math.max(-MAX, Math.min(MAX, target + dy * PUSH));
+      if (!raf) raf = requestAnimationFrame(tick);
+    }, { passive: true });
+  })();
+</script>
+
+</body>
+</html>
