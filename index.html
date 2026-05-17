@@ -534,7 +534,17 @@
     color: var(--accent);
     border: 1px solid color-mix(in oklab, var(--accent) 35%, transparent);
   }
-  .service:nth-child(3n) .ico { background: color-mix(in oklab, var(--accent-2) 15%, transparent); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent-2) 35%, transparent);}
+  .service.service--alt .ico { background: color-mix(in oklab, var(--accent-2) 15%, transparent); color: var(--accent-2); border-color: color-mix(in oklab, var(--accent-2) 35%, transparent);}
+  .service-cat {
+    grid-column: 1 / -1;
+    background: color-mix(in oklab, var(--ink-3) 60%, var(--ink));
+    padding: 16px 32px;
+    font-family: var(--mono); font-size: 11px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 14px;
+  }
+  .service-cat::after { content: ''; flex: 1; height: 1px; background: var(--line-dark); }
   .service h3 { font-family: var(--display); font-size: 20px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   .service p { font-size: 14px; line-height: 1.55; opacity: .7; margin: 0; }
   .service .tag {
@@ -914,7 +924,7 @@
         <h2 class="sec-title">Projetos sob<br/>medida — não <span class="grad">templates.</span></h2>
       </div>
       <p class="sec-sub">
-        Cada negócio tem um jeito de falar e um cliente diferente do outro. Por isso desenhamos automações específicas para o seu contexto, do zero ou em cima do que você já usa.
+        Do site que converte ao agente que atende 24h — construímos presença digital, automação e inteligência artificial sob medida. Do zero ou em cima do que você já usa.
       </p>
     </div>
 
@@ -925,48 +935,103 @@
     </div>
 
     <div class="services-grid" id="services-grid">
-      <!-- Service template cards -->
+
+      <!-- 01 / Presença Digital -->
+      <div class="service-cat">01 / Presença Digital</div>
+
       <div class="service">
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div>
-        <h3>Atendimento via WhatsApp</h3>
-        <p>Agente conversacional treinado no seu negócio. Responde, qualifica leads, marca reunião e passa para humano quando faz sentido.</p>
-        <div class="tag"><span>WHATSAPP · CRM</span><span class="arrow">→</span></div>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Sites Institucionais</h3>
+        <p>Sites rápidos, responsivos e otimizados para SEO. Do institucional ao portfólio — identidade digital completa que representa seu negócio.</p>
+        <div class="tag"><span>SEO · DESIGN · WEB</span><span class="arrow">→</span></div>
       </div>
 
       <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg></div>
+        <h3>Landing Pages</h3>
+        <p>Páginas de conversão que vendem. Copywriting, design e integração com CRM — tudo pensado para transformar visita em lead qualificado.</p>
+        <div class="tag"><span>CONVERSÃO · CRO · ADS</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service service--alt">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+        <h3>Plataformas Web</h3>
+        <p>Sistemas e aplicações sob medida para seu processo. Portais de cliente, painéis internos e ferramentas que eliminam o trabalho manual.</p>
+        <div class="tag"><span>SISTEMA · WEBAPP · SaaS</span><span class="arrow">→</span></div>
+      </div>
+
+      <!-- 02 / Atendimento & CRM -->
+      <div class="service-cat">02 / Atendimento &amp; CRM</div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div>
+        <h3>Chatbots com IA</h3>
+        <p>Agente conversacional treinado no seu negócio. Responde, qualifica leads, marca reunião e passa para humano quando faz sentido — no WhatsApp, Instagram ou site.</p>
+        <div class="tag"><span>WHATSAPP · INSTAGRAM · WEB</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Multiatendimento</h3>
+        <p>Plataforma que centraliza WhatsApp, Instagram e e-mail em um só lugar. Vários atendentes, filas inteligentes e histórico completo por cliente.</p>
+        <div class="tag"><span>OMNICHANNEL · EQUIPE</span><span class="arrow">→</span></div>
+      </div>
+
+      <div class="service service--alt">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <h3>CRM Customizado</h3>
+        <p>Pipeline de vendas, gestão de contatos e automações de follow-up montados para o seu processo — sem pagar por funcionalidades que nunca vai usar.</p>
+        <div class="tag"><span>PIPELINE · FOLLOW-UP · IA</span><span class="arrow">→</span></div>
+      </div>
+
+      <!-- 03 / Automação com IA -->
+      <div class="service-cat">03 / Automação com IA</div>
+
+      <div class="service">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-        <h3>Automação de processos</h3>
+        <h3>Automação de Processos</h3>
         <p>Conectamos planilhas, e-mails, ERPs e ferramentas que hoje vivem soltas. O que era manual roda sozinho — e você só recebe o resumo.</p>
-        <div class="tag"><span>ZAPIER · N8N · API</span><span class="arrow">→</span></div>
+        <div class="tag"><span>N8N · ZAPIER · API</span><span class="arrow">→</span></div>
       </div>
 
       <div class="service">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
-        <h3>Agentes com base de conhecimento</h3>
+        <h3>Agentes com Base de Conhecimento</h3>
         <p>Seus documentos, contratos, manuais e históricos viram cérebro para um agente que responde com a precisão do seu time.</p>
-        <div class="tag"><span>RAG · LLM</span><span class="arrow">→</span></div>
+        <div class="tag"><span>RAG · LLM · DOCUMENTOS</span><span class="arrow">→</span></div>
       </div>
 
-      <div class="service">
+      <div class="service service--alt">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 1a4 4 0 0 0-4 4v6a4 4 0 0 0 8 0V5a4 4 0 0 0-4-4zM5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg></div>
-        <h3>Voice agents</h3>
-        <p>Atendimento por voz com qualidade humana. Recebe ligação, entende a intenção e resolve — ou redireciona com contexto pronto.</p>
+        <h3>Voice Agents</h3>
+        <p>Atendimento por voz com qualidade humana. Recebe ligação, entende a intenção e resolve — ou redireciona com contexto pronto para o time.</p>
         <div class="tag"><span>TELEFONIA · IA DE VOZ</span><span class="arrow">→</span></div>
       </div>
 
+      <!-- 04 / Marketing com IA -->
+      <div class="service-cat">04 / Marketing com IA</div>
+
       <div class="service">
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></div>
-        <h3>Análise inteligente de dados</h3>
-        <p>Painéis e relatórios que se montam sozinhos. Pergunte em linguagem natural, receba a resposta com gráfico e insight.</p>
-        <div class="tag"><span>BI · IA GENERATIVA</span><span class="arrow">→</span></div>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <h3>Marketing com IA</h3>
+        <p>Copy para anúncios, posts, e-mails e campanhas gerados e otimizados com IA. Volume de conteúdo sem perder a voz da marca.</p>
+        <div class="tag"><span>COPY · SOCIAL · ADS</span><span class="arrow">→</span></div>
       </div>
 
-      <!-- Editable placeholder -->
-      <div class="service placeholder" id="placeholder-service">
-        <div class="plus">+</div>
-        <strong>Adicione uma nova solução</strong>
-        <p>Como administrador, você pode plugar suas próprias automações aqui depois.</p>
+      <div class="service">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg></div>
+        <h3>Vídeos com IA</h3>
+        <p>Produção e edição de vídeos para redes sociais com inteligência artificial. Do roteiro ao corte final — mais rápido, mais escala.</p>
+        <div class="tag"><span>VÍDEO · REELS · PRODUÇÃO</span><span class="arrow">→</span></div>
       </div>
+
+      <div class="service service--alt">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></div>
+        <h3>Análise Inteligente de Dados</h3>
+        <p>Painéis e relatórios que se montam sozinhos. Pergunte em linguagem natural, receba a resposta com gráfico e insight acionável.</p>
+        <div class="tag"><span>BI · IA GENERATIVA · DADOS</span><span class="arrow">→</span></div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1187,10 +1252,16 @@
         <div class="field">
           <label for="f-area">Área de interesse</label>
           <select id="f-area">
-            <option>Atendimento via WhatsApp</option>
+            <option>Sites e Landing Pages</option>
+            <option>Plataformas Web / Sistema</option>
+            <option>Chatbot com IA (WhatsApp / Instagram)</option>
+            <option>Multiatendimento</option>
+            <option>CRM Customizado</option>
             <option>Automação de processos</option>
             <option>Agentes com base de conhecimento</option>
-            <option>Voice agents</option>
+            <option>Voice Agents</option>
+            <option>Marketing com IA</option>
+            <option>Vídeos com IA</option>
             <option>Análise inteligente de dados</option>
             <option>Outro / preciso de diagnóstico</option>
           </select>
